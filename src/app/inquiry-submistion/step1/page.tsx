@@ -12,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { TbLoader } from "react-icons/tb";
 
 const stepOneFormSchema = z.object({
-    fullname: z.string({ required_error: "This field is required" }),
+    fullname: z.string({ required_error: "This field is required" }).min(1, "This field is required"),
     email: z.string({ required_error: "This field is required" }).email("This is not a valid email address"),
 });
 
@@ -23,7 +23,7 @@ export default function LeadCollectingForm() {
 
     const form_stepOne = useForm<z.infer<typeof stepOneFormSchema>>({
         resolver: zodResolver(stepOneFormSchema),
-        defaultValues: { email: "" },
+        defaultValues: { fullname: "", email: "" },
     });
 
     const onSubmit = async (values: z.infer<typeof stepOneFormSchema>) => {

@@ -33,15 +33,21 @@ export default function LeadCollectingForm() {
         const inquirySource = values.inquirySource;
         setLoading(true);
 
-        const data = new FormData();
-        data.append("fullname", fullname);
-        data.append("email", email);
-        data.append("inquirySource", inquirySource);
-
-        const R = await fetch(`/api/save-user-inquiry`, { method: "POST", body: data })
+        const R = await fetch(`/api/save-user-inquiry`, {
+            method: "POST",
+            body: JSON.stringify({
+                fullname,
+                email,
+                inquirySource,
+            }),
+        })
             .then((response) => response)
             .catch((error) => new Response(error, { status: 500, statusText: "Internal Error" }));
-        if (R.status >= 400) toast({ title: "Error", description: R.statusText, variant: "destructive" });
+
+        if (R.status >= 400) {
+            toast({ title: "Error", description: R.statusText, variant: "destructive" });
+            return;
+        }
 
         setLoading(false);
         router.push("/inquiry-submistion/thank-you");
