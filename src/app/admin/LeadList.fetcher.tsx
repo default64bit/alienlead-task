@@ -11,10 +11,11 @@ const getLeadsList = async () => {
 
     if (R.status >= 400) {
         console.error({ url: R.url, status: R.status, statusText: R.statusText });
-        throw Error(`Couldn't get the leads`, { cause: R.status });
+        return [];
     }
 
-    return await R.json();
+    const data = (await R.json().catch(() => [])) || [];
+    return data;
 };
 const getSalesMenList = async () => {
     const R = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-salesmen-list`)
@@ -26,15 +27,20 @@ const getSalesMenList = async () => {
 
     if (R.status >= 400) {
         console.error({ url: R.url, status: R.status, statusText: R.statusText });
-        throw Error(`Couldn't get the salesmen list`, { cause: R.status });
+        return [];
     }
 
-    return await R.json();
+    const data = (await R.json().catch(() => [])) || [];
+    return data;
 };
 
 const LeadListFetcher = async () => {
     const requests = await Promise.allSettled([getLeadsList(), getSalesMenList()]);
     if (requests[0].status === "rejected" || requests[1].status === "rejected") {
+        console.log({
+            reason0: requests[0].status === "rejected" ? requests[0].reason : "",
+            reason1: requests[1].status === "rejected" ? requests[1].reason : "",
+        });
         return <>something went wrong</>;
     }
 

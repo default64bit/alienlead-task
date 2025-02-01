@@ -28,9 +28,12 @@ export default function LeadCollectingForm() {
 
     const onSubmit = async (values: z.infer<typeof stepOneFormSchema>) => {
         setLoading(true);
-        InquiryForm.dispatch({ type: "setFormValues", form: values });
-        setLoading(false);
 
+        InquiryForm.dispatch({ type: "setFormValues", form: { fullname: values.fullname, email: values.email } });
+        window.localStorage.setItem("fullname", values.fullname);
+        window.localStorage.setItem("email", values.email);
+
+        setLoading(false);
         router.push("/inquiry-submistion/step2");
     };
 

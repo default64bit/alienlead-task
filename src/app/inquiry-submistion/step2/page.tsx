@@ -28,8 +28,8 @@ export default function LeadCollectingForm() {
     });
 
     const onSubmit = async (values: z.infer<typeof stepTwoFormSchema>) => {
-        const fullname = InquiryForm.value.fullname || "";
-        const email = InquiryForm.value.email || "";
+        const fullname = InquiryForm.value.fullname || window.localStorage.getItem("fullname") || "";
+        const email = InquiryForm.value.email || window.localStorage.getItem("email") || "";
         const inquirySource = values.inquirySource;
         setLoading(true);
 

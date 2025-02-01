@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Provider from "../provider";
 
 export const metadata: Metadata = {
     title: "Submit New Inquiry",
@@ -6,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    return <>{children}</>;
+    return (
+        <>
+            <Provider>{children}</Provider>
+        </>
+    );
 }
