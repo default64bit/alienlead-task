@@ -9,3 +9,25 @@ datasource db {
     url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
     directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
+
+model Leads {
+    id                  String    @id @default(cuid())
+    name                String    @db.VarChar(255)
+    email               String    @db.VarChar(255)
+    source              String    @db.VarChar(255)
+    assignedSalesperson SalesMen? @relation(fields: [SalesManId], references: [id])
+    SalesManId          String?
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+}
+
+model SalesMen {
+    id    String  @id @default(cuid())
+    name  String?
+    email String? @unique
+    Leads Leads[]
+
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @updatedAt @map(name: "updated_at")
+}

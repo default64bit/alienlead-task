@@ -23,7 +23,7 @@ export default function LeadCollectingForm() {
 
     const form_stepOne = useForm<z.infer<typeof stepOneFormSchema>>({
         resolver: zodResolver(stepOneFormSchema),
-        defaultValues: { fullname: "", email: "" },
+        defaultValues: { email: "" },
     });
 
     const onSubmit = async (values: z.infer<typeof stepOneFormSchema>) => {
