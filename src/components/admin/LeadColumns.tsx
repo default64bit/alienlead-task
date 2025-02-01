@@ -7,7 +7,7 @@ export type Lead = {
     name: string;
     email: string;
     source: string;
-    salesManId?: string;
+    SalesManId?: string;
 };
 
 export type SalesMan = {
@@ -38,7 +38,8 @@ export const columns: ColumnDef<Lead>[] = [
         id: "salesManId",
         header: "sales person",
         cell: ({ row, table }) => {
-            const salesMenList: { [key: string]: SalesMan } = table.options.meta?.extraData?.salesMenList || {};
+            const salesMenList: { [key: string]: SalesMan } = {};
+            table.options.meta?.extraData?.salesMenList?.forEach((item) => (salesMenList[item.id] = item));
 
             const changeSalesman = async (newSalesmanId: string) => {
                 const R = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/assign-salesman-to-lead`, {
@@ -61,7 +62,7 @@ export const columns: ColumnDef<Lead>[] = [
             return (
                 <>
                     <div className="flex items-center gap-2 max-w-fit">
-                        <Select onValueChange={(v) => changeSalesman(v)} defaultValue={salesMenList[row.original.salesManId || ""]?.id}>
+                        <Select onValueChange={(v) => changeSalesman(v)} defaultValue={salesMenList[row.original.SalesManId || ""]?.id}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select Salesperson" />
                             </SelectTrigger>
