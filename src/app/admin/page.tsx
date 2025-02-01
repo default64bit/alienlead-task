@@ -1,17 +1,12 @@
 import { Button } from "@/components/shadcn/Button";
 import Link from "next/link";
+import LeadListFetcher from "./LeadList.fetcher";
 
 export default function Home() {
     return (
         <>
-            <h1 className="text-3xl font-bold mb-10">Welcome To Lead Management Demo 👋</h1>
-            <div className="flex items-center gap-4">
-                <Button asChild>
-                    <Link href="/inquiry-submistion/step1">+ Submit new inquiry</Link>
-                </Button>
-                <Button asChild>
-                    <Link href="/admin">Admin Panel</Link>
-                </Button>
+            <div className="w-full max-w-screen-2xl p-6">
+                <LeadListFetcher />
             </div>
         </>
     );

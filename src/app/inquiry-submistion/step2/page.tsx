@@ -33,7 +33,7 @@ export default function LeadCollectingForm() {
         const inquirySource = values.inquirySource;
         setLoading(true);
 
-        const R = await fetch(`/api/save-user-inquiry`, {
+        const R = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/save-user-inquiry`, {
             method: "POST",
             body: JSON.stringify({
                 fullname,
@@ -43,13 +43,13 @@ export default function LeadCollectingForm() {
         })
             .then((response) => response)
             .catch((error) => new Response(error, { status: 500, statusText: "Internal Error" }));
+        setLoading(false);
 
         if (R.status >= 400) {
             toast({ title: "Error", description: R.statusText, variant: "destructive" });
             return;
         }
 
-        setLoading(false);
         router.push("/inquiry-submistion/thank-you");
     };
 
