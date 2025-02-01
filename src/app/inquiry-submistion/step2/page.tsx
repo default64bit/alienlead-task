@@ -10,6 +10,7 @@ import { TbLoader } from "react-icons/tb";
 import { formContext } from "@/providers/InquiryFormContextProvider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/Select";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/shadcn/UseToast";
 
 const sourceOptions = ["Google", "Social Media", "Friends"];
 const stepTwoFormSchema = z.object({
@@ -19,6 +20,7 @@ const stepTwoFormSchema = z.object({
 export default function LeadCollectingForm() {
     const InquiryForm = useContext(formContext);
     const router = useRouter();
+    const { toast } = useToast();
     const [loading, setLoading] = useState(false);
 
     const form_stepTwo = useForm<z.infer<typeof stepTwoFormSchema>>({
@@ -35,6 +37,11 @@ export default function LeadCollectingForm() {
         data.append("fullname", fullname);
         data.append("email", email);
         data.append("inquirySource", inquirySource);
+
+        const R = await fetch(`/api/save-user-inquiry`, { method: "POST", body: data })
+            .then((response) => response)
+            .catch((error) => new Response(error, { status: 500, statusText: "Internal Error" }));
+        if (R.status >= 400) toast({ title: "Error", description: R.statusText, variant: "destructive" });
 
         setLoading(false);
         router.push("/inquiry-submistion/thank-you");

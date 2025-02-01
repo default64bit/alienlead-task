@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Provider from "@/app/provider";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "@/components/shadcn/Toaster";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -17,10 +18,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <html lang="en" className="dark">
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
                 <Provider>
-                    <main className="flex flex-col items-center justify-center gap-2 h-screen">
-                        {children}
-                    </main>
+                    <main className="flex flex-col items-center justify-center gap-2 h-screen">{children}</main>
                 </Provider>
+                <Toaster />
             </body>
         </html>
     );

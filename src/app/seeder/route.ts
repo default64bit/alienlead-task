@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 // inject some dummy data for salesmen table in database
-export const GET = async (request: NextRequest) => {
+export const GET = async () => {
     await prisma.salesMen.createMany({
         data: [
             { name: "Tim Joe", email: "TimJoe@gmail.com" },
@@ -12,5 +12,5 @@ export const GET = async (request: NextRequest) => {
             { name: "Elon Musk", email: "ElonMusk@gmail.com" },
         ],
     });
-    return "OK";
+    return new NextResponse("OK");
 };
