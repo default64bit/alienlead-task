@@ -1,10 +1,6 @@
 "use client";
-import { Button } from "@/components/shadcn/Button";
 import { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
-import { TbPencil } from "react-icons/tb";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../shadcn/Select";
-import { useToast } from "@/components/shadcn/UseToast";
 
 export type Lead = {
     id: string;
@@ -43,10 +39,9 @@ export const columns: ColumnDef<Lead>[] = [
         header: "sales person",
         cell: ({ row, table }) => {
             const salesMenList: { [key: string]: SalesMan } = table.options.meta?.extraData?.salesMenList || {};
-            const { toast } = useToast();
 
             const changeSalesman = async (newSalesmanId: string) => {
-                const R = await fetch(`/api/assign-salesman-to-lead`, {
+                const R = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/assign-salesman-to-lead`, {
                     method: "POST",
                     body: JSON.stringify({
                         leadId: row.original.id,
@@ -57,7 +52,7 @@ export const columns: ColumnDef<Lead>[] = [
                     .catch((error) => new Response(error, { status: 500, statusText: "Internal Error" }));
 
                 if (R.status >= 400) {
-                    toast({ title: "Error", description: R.statusText, variant: "destructive" });
+                    alert(R.statusText);
                     return;
                 }
 

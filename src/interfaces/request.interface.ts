@@ -4,7 +4,6 @@ export interface QueryParam {
     pp?: number;
     sort_type?: "asc" | "desc";
     sort?: string;
-    extraParams?: any;
 }
 export interface PaginatedResponse<D> {
     records: D[];

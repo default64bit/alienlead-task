@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
 import { ColumnDef, RowData, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/shadcn/Table";
@@ -6,7 +7,7 @@ import { Button } from "./Button";
 
 declare module "@tanstack/table-core" {
     interface TableMeta<TData extends RowData> {
-        refresh: () => void;
+        refresh: () => void | TData;
         extraData?: any;
     }
 }
@@ -44,16 +45,16 @@ export function DataTable<TData, TValue>({ columns, data, paginationMetadata, fe
     });
 
     useEffect(() => {
-        fetcher({ page: 1, search: extraQuery?.value?.searchQuery || "", extraParams: extraQuery?.value }).then((d) => {
+        fetcher({ page: 1, search: extraQuery?.value?.searchQuery || "" }).then((d) => {
             setTableData(d);
         });
-    }, [extraQuery?.value]);
+    }, [extraQuery?.value, fetcher]);
 
     useEffect(() => {
-        fetcher({ page: pagination.pageIndex + 1, search: extraQuery?.value?.searchQuery || "", extraParams: extraQuery?.value }).then((d) => {
+        fetcher({ page: pagination.pageIndex + 1, search: extraQuery?.value?.searchQuery || "" }).then((d) => {
             setTableData(d);
         });
-    }, [pagination]);
+    }, [pagination, fetcher, extraQuery?.value?.searchQuery]);
 
     useEffect(() => {
         setTableData(data);

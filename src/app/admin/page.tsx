@@ -1,5 +1,3 @@
-import { Button } from "@/components/shadcn/Button";
-import Link from "next/link";
 import LeadListFetcher from "./LeadList.fetcher";
 
 export default function Home() {
