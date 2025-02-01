@@ -40,6 +40,7 @@ export const columns: ColumnDef<Lead>[] = [
         cell: ({ row, table }) => {
             const salesMenList: { [key: string]: SalesMan } = {};
             table.options.meta?.extraData?.salesMenList?.forEach((item) => (salesMenList[item.id] = item));
+            console.log({ dd: table.options.meta });
 
             const changeSalesman = async (newSalesmanId: string) => {
                 const R = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/assign-salesman-to-lead`, {

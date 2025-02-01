@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 * First, clone this repo, then run the `npm i` to install dependencies
 
-* Create a postgress database in Supabase
+* Create a postgress database in Supabase, and run `prisma generate` command
 
 * Then create .env file using .env.example and fill in the required fields
 

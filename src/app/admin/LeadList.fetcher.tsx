@@ -1,8 +1,8 @@
 import { Lead, columns } from "@/components/admin/LeadColumns";
 import { DataTable } from "@/components/shadcn/DataTable";
 
-const getLeadsList = async () => {
-    const R = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-leads-list`)
+export const getLeadsList = async () => {
+    const R = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-leads-list`, { next: { revalidate: 0 } })
         .then((response) => response)
         .catch((error) => {
             console.error({ error });
@@ -17,8 +17,8 @@ const getLeadsList = async () => {
     const data = (await R.json().catch(() => [])) || [];
     return data;
 };
-const getSalesMenList = async () => {
-    const R = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-salesmen-list`)
+export const getSalesMenList = async () => {
+    const R = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/get-salesmen-list`, { next: { revalidate: 0 } })
         .then((response) => response)
         .catch((error) => {
             console.error({ error });
