@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Card, CardContent } from "@/components/shadcn/Card";
 import { Button } from "@/components/shadcn/Button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn/Form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/shadcn/Form";
 import { TbLoader } from "react-icons/tb";
 import { formContext } from "@/providers/InquiryFormContextProvider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/Select";
@@ -13,10 +13,7 @@ import { useRouter } from "next/navigation";
 
 const sourceOptions = ["Google", "Social Media", "Friends"];
 const stepTwoFormSchema = z.object({
-    inquirySource: z
-        .string({ required_error: "This field is required" })
-        .array()
-        .refine((val) => val.some((v) => sourceOptions.includes(v))),
+    inquirySource: z.string({ required_error: "This field is required" }).refine((v) => sourceOptions.includes(v)),
 });
 
 export default function LeadCollectingForm() {
@@ -29,6 +26,17 @@ export default function LeadCollectingForm() {
     });
 
     const onSubmit = async (values: z.infer<typeof stepTwoFormSchema>) => {
+        const fullname = InquiryForm.value.fullname || "";
+        const email = InquiryForm.value.email || "";
+        const inquirySource = values.inquirySource;
+        setLoading(true);
+
+        const data = new FormData();
+        data.append("fullname", fullname);
+        data.append("email", email);
+        data.append("inquirySource", inquirySource);
+
+        setLoading(false);
         router.push("/inquiry-submistion/thank-you");
     };
 

@@ -1,6 +1,6 @@
 "use client";
 import InquiryFormContextProvider from "@/providers/InquiryFormContextProvider";
-import { ThemeProvider } from "next-themes";
+// import { ThemeProvider } from "next-themes";
 import { memo } from "react";
 
 const Provider = ({ children }: Readonly<{ children: React.ReactNode }>) => {
